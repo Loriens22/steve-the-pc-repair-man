@@ -41,6 +41,14 @@ No downloaded models, textures, sounds, music or fonts-as-art are used.
 - Foliage (shrubs/plant leaves) is fairly low-detail.
 - On very old phones the game automatically drops to Low quality; shadows and depth of field are disabled there.
 
+## Level QA (headless Chromium)
+```
+python3 tools/audit.py http://127.0.0.1:4173/ reach shop plane chalet vault vault:core epilogue   # capsule reachability + heatmaps
+python3 tools/audit.py http://127.0.0.1:4173/ chain shop                                          # autopilot plays every objective to the credits
+python3 tools/shopcheck.py https://loriens22.github.io/steve-the-pc-repair-man/ out.png [--mobile]  # back-room / feed-the-cat check
+```
+The reachability test sweeps the player's real capsule over each level against the real Rapier colliders, flood-fills from the spawn point and checks every interactable and trigger (in range and in line of sight). The autopilot walks the real character controller along that path and presses USE. Cutscenes play in full; minigames and hold-buttons auto-complete, guards are frozen in place and vault pop-ups are off during chain runs. Loose physics props return to their starting spot if they fall out of the world, leave the level bounds or come to rest in a doorway or at a key interaction spot.
+
 ## Build
 ```
 cd web && npm ci && npx vite dev        # play locally
