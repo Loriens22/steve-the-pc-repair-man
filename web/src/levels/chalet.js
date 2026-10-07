@@ -101,6 +101,8 @@ export class ChaletLevel extends Level {
       else { g.bark('egg_minesweeper', g.player.actor, { queue: false }); g.secret('minesweeper'); }
     } });
     this.interact({ pos: V(6.4, 1.3, -6.55), r: 1.3, dy: 2, priority: 1, cond: () => !st.open, label: 'Use the keypad (card + PIN)', fn: () => this.keypadUse() });
+    // the service door / keypad spot and the hut monitor spot stay clear of snowballs
+    this.keepClear([6.9, -7.0, 0.6, 0.9], [6.0, 10.2, 0.5, 0.6]); this.bounds = [-38, 38, -40, 44];
     this.interact({ pos: V(0, 1.2, -5.0), r: 1.6, dy: 2, label: 'Front door', fn: () => g.ui.toast('Locked, alarmed, and made of solid oak. The service entrance is on the east side.', 3) });
     this.interact({ pos: V(-6, 1.2, 16), r: 1.6, dy: 2, label: 'The snowman', fn: () => { if (g.secret('snowman')) g.bark('egg_snowman', g.player.actor); else g.bark('egg_snowman', g.player.actor, { queue: false }); } });
     this.interact({ pos: V(-10, 1.0, -9), r: 2.0, dy: 2, label: 'The hot tub', fn: () => { audio.sfx('splash', { pos: V(-10, 1, -9) }); g.bark('egg_tub', g.player.actor, { queue: false }); g.noise(V(-10, 0, -9), 6); } });

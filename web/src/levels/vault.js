@@ -74,6 +74,8 @@ export class VaultLevel extends Level {
     this.physics.addBox(V(-1.0, 1.45, -1.95), V(0.12, 1.45, 0.16)); this.physics.addBox(V(1.0, 1.45, -1.95), V(0.12, 1.45, 0.16));
     this.liftDoor = { open: false, t: 0, l: find(this.lift, 'door_l'), r: find(this.lift, 'door_r') }; this.liftDoor.l0 = this.liftDoor.l.position.x; this.liftDoor.r0 = this.liftDoor.r.position.x;
     this.liftDoor.col = this.physics.addBox(V(0, 1.2, -1.95), V(0.9, 1.2, 0.05), null, { type: 'door' });
+    // throwables must never end up parked in front of the lift, the patch panel or the call button
+    this.keepClear([0, -1.3, 1.1, 0.7], [-2.1, -1.35, 0.6, 0.6], [1.3, -1.35, 0.5, 0.6]); this.bounds = [-8.3, 8.3, -4.5, 28.5];
     this.every(dt => { const d = this.liftDoor; d.t += ((d.open ? 1 : 0) - d.t) * Math.min(1, dt * 3); d.l.position.x = d.l0 - d.t * 0.86; d.r.position.x = d.r0 + d.t * 0.86; });
     const ind = find(this.lift, 'indicator'); if (ind) { this.indMat = new THREE.MeshBasicMaterial({ color: 0xff2020, toneMapped: false }); ind.material = this.indMat; }
     // lift car behind the wall

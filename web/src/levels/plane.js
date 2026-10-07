@@ -50,6 +50,8 @@ export class PlaneLevel extends Level {
     this.jacket = inst('jacket'); this.jacket.position.set(0.95, 1.62, -2.2); this.jacket.rotation.set(0, -Math.PI / 2, 0); this.jacket.visible = false; this.add(this.jacket);
     // pillows to throw (distraction) + nuts
     for (const [x, z] of [[-1.15, ROWS[0]], [1.15, ROWS[1]], [-1.15, ROWS[3]], [1.15, ROWS[3]]]) this.place('pillow', [x, 0.62, z - 0.1], 0, { dyn: { pick: true, label: 'pillow', density: 40, sound: 'cardboard', noiseRadius: 10 } });
+    // seat 2A entry and the spot under Lars's bin stay clear of thrown pillows
+    this.keepClear([-0.45, ROWS[1] + 0.2, 0.45, 0.45], [0.15, -2.2, 0.45, 0.55]); this.bounds = [-2.3, 2.3, -6.4, 6.4];
     this.nuts = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.05, 0.05, 16), stdMat('nutbowl', { color: 0xf4f0e8, roughness: 0.4 })); this.nuts.position.set(-0.77, 0.76, 0.95); this.add(this.nuts);
     const nm = new THREE.Mesh(new THREE.SphereGeometry(0.06, 10, 6), stdMat('nuts', { color: 0xb07a3a, roughness: 0.8 })); nm.scale.y = 0.35; nm.position.set(-0.77, 0.79, 0.95); this.add(nm);
     this.floppy = inst('floppy'); this.floppy.position.set(1.15, 0.5, ROWS[3] + 0.68); this.floppy.rotation.x = -1.2; this.add(this.floppy);
