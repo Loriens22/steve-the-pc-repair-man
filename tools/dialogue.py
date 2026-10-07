@@ -131,6 +131,12 @@ line('egg_rack', 'steve', "Somebody has been cable managing with spaghetti.")
 # server hall + patch panel
 line('s_panel', 'steve', "Elevator's locked to the core. But this patch panel runs the whole floor. Cable management, my favourite.")
 line('s_panel_done', 'steve', "Neat, tidy, colour coded. Now that's an elevator I'd ride.")
+line('v_01', 'steve', "Server room. Eighteen degrees, a thousand blinking lights, and somebody else's electricity bill. Home sweet home.")
+line('v_02', 'steve', "The lift to the core is at the far end. Two guards and a camera. I've fixed worse networks.")
+line('v_vend', 'steve', "Out of order since ninety nine. The only thing down here older than Ms. Ellis's computer is this granola bar.", say="Out of order since ninety nine. The only thing down here older than Ms. Ellis's computer, is this granola bar.")
+line('v_pophit', 'steve', "Ugh. Pop-ups. I hate pop-ups.")
+line('v_brecht', 'brecht', "Don't touch me! I am babysitting a very important uptime!")
+line('v_ellis', 'steve', "Ms. Ellis, if you could see me now. Actually, please don't.")
 # ------------------------------------------------------------- CH4 the core
 line('w_01', 'winston', "Hello, Steve. I have been expecting you.")
 line('w_02', 'steve', "WINSTON, I presume.")

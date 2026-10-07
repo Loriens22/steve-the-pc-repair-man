@@ -460,6 +460,30 @@
 "who": "steve",
 "text": "Neat, tidy, colour coded. Now that's an elevator I'd ride."
 },
+"v_01": {
+"who": "steve",
+"text": "Server room. Eighteen degrees, a thousand blinking lights, and somebody else's electricity bill. Home sweet home."
+},
+"v_02": {
+"who": "steve",
+"text": "The lift to the core is at the far end. Two guards and a camera. I've fixed worse networks."
+},
+"v_vend": {
+"who": "steve",
+"text": "Out of order since ninety nine. The only thing down here older than Ms. Ellis's computer is this granola bar."
+},
+"v_pophit": {
+"who": "steve",
+"text": "Ugh. Pop-ups. I hate pop-ups."
+},
+"v_brecht": {
+"who": "brecht",
+"text": "Don't touch me! I am babysitting a very important uptime!"
+},
+"v_ellis": {
+"who": "steve",
+"text": "Ms. Ellis, if you could see me now. Actually, please don't."
+},
 "w_01": {
 "who": "winston",
 "text": "Hello, Steve. I have been expecting you."
