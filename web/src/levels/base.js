@@ -20,7 +20,7 @@ export class Level {
   place(model, pos, ry = 0, o = {}) {
     const obj = inst(model, o); obj.position.set(...pos); obj.rotation.y = ry; if (o.scale) obj.scale.setScalar(o.scale); if (o.rx) obj.rotation.x = o.rx; if (o.rz) obj.rotation.z = o.rz;
     (o.parent || this.root).add(obj); obj.updateMatrixWorld(true);
-    if (o.dyn) { const d = this.physics.addDynamic(obj, o.dyn); d.home = obj.position.clone(); if (o.dyn.pick) d.opts.pick = true; obj.userData.d = d; }
+    if (o.dyn) { const d = this.physics.addDynamic(obj, o.dyn); d.home = obj.getWorldPosition(new THREE.Vector3()); { const q = obj.getWorldQuaternion(new THREE.Quaternion()); d.homeQ = { x: q.x, y: q.y, z: q.z, w: q.w }; } if (o.dyn.pick) d.opts.pick = true; obj.userData.d = d; }
     else if (o.col !== false) this.physics.addStatic(obj, { type: o.colType || 'static', shrink: o.shrink, ignoreCols: o.ignoreCols });
     return obj;
   }
@@ -94,6 +94,26 @@ export class Level {
   interact(o) { o.level = this; return this.game.interact(o); }
   trigger(center, half, fn, o = {}) { const t = { c: new THREE.Vector3(...center), h: new THREE.Vector3(...half), fn, once: o.once ?? true, enabled: true, cond: o.cond }; this.triggers.push(t); return t; }
   every(fn) { this.updaters.push(fn); }
+  // zones [x, z, halfX, halfZ] that physics props must never come to rest in (doorways, key interaction spots)
+  keepClear(...zones) { (this.clearZones = this.clearZones || []).push(...zones.map(([x, z, hx, hz]) => ({ x, z, hx, hz }))); }
+  inClearZone(p, m = 0.12) { return (this.clearZones || []).some(z => Math.abs(p.x - z.x) < z.hx + m && Math.abs(p.z - z.z) < z.hz + m && p.y < 2.6); }
+  // safety net: props that fell out of the world, flew out of bounds, or settle in a keep-clear zone go back to where they started
+  propSafety(dt) {
+    this._psT = (this._psT || 0) + dt; if (this._psT < 0.5) return; const step = this._psT; this._psT = 0;
+    const ph = this.game.physics; if (!ph) return; const b = this.bounds;
+    for (const d of ph.dyn) {
+      if (d.held || !d.home || d.noReset) continue;
+      const p = d.body.translation(), v = d.body.linvel(); const sp = Math.hypot(v.x, v.y, v.z);
+      const lost = p.y < (this.floorY ?? 0) - 3 || (b && (p.x < b[0] || p.x > b[1] || p.z < b[2] || p.z > b[3]));
+      if (this.inClearZone(p) && sp < 0.6) d.zoneT = (d.zoneT || 0) + step; else d.zoneT = 0;
+      if (lost || d.zoneT >= 1.5) this.resetProp(d);
+    }
+  }
+  resetProp(d) {
+    const p = d.body.translation(); this.game.fx?.puff(new THREE.Vector3(p.x, p.y + 0.2, p.z), 6, 0xffffff);
+    const h = d.home, q = d.homeQ || { x: 0, y: 0, z: 0, w: 1 };
+    d.body.setTranslation({ x: h.x, y: h.y + 0.05, z: h.z }, true); d.body.setRotation(q, true); d.body.setLinvel({ x: 0, y: 0, z: 0 }, true); d.body.setAngvel({ x: 0, y: 0, z: 0 }, true); d.zoneT = 0; d.resets = (d.resets || 0) + 1;
+  }
   after(sec, fn) { this.timers.push({ t: sec, fn }); }
   async build() {}
   async start() {}
@@ -101,6 +121,7 @@ export class Level {
     if (this.skyMesh) this.skyMesh.position.copy(this.game.world.camera.position);
     for (const s of this.screens) if (s.draw && s.live !== false) { s.acc = (s.acc || 0) + dt; if (s.acc > (s.rate || 0.1)) { s.update(s.acc); s.acc = 0; } }
     for (const f of this.updaters) f(dt);
+    this.propSafety(dt);
     for (let i = this.timers.length - 1; i >= 0; i--) { const t = this.timers[i]; t.t -= dt; if (t.t <= 0) { this.timers.splice(i, 1); t.fn(); } }
     const pl = this.game.player;
     if (pl && !this.game.locked()) for (const t of this.triggers) {

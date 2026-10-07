@@ -13,6 +13,7 @@ import dialogue from './data/dialogue.json';
 import vo from './data/vo.json';
 import { LEVELS, CHAPTERS } from './levels/index.js';
 import { SFX_LIST } from './data/sfxlist.js';
+import { Audit } from './engine/audit.js';
 
 const VERSION = '1.0.0';
 const $ = s => document.querySelector(s);
@@ -265,10 +266,11 @@ class Game {
     }
     if (pl.held && !best) best = { label: 'Drop ' + (pl.held.opts.label || ''), fn: () => pl.drop(), _drop: true };
     const label = best ? (typeof best.label === 'function' ? best.label() : best.label) : null;
+    this.curInteract = best; this.curLabel = label;
     this.ui.prompt(label, this.touch ? '' : 'E');
     if (best && consume('use')) { if (best.once) best.enabled = false; audio.sfx('ui_use', { vol: 0.3, vary: 0 }); best.fn(); }
   }
 }
 
-const game = new Game(); window.__game = game;
+const game = new Game(); window.__game = game; window.__audit = new Audit(game);
 game.boot().catch(e => { console.error(e); $('#loadtxt').textContent = 'Error: ' + e.message; });

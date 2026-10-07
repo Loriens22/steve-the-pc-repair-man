@@ -111,22 +111,24 @@ export async function buildShop(L, tod = 'day') {
   // ---------------- interior furniture
   L.counter = L.place('counter', [0.3, 0, -0.6], 0);
   L.place('register', [1.1, 1.04, -0.65], 0, { col: false }); L.bell = L.place('bell', [-0.3, 1.04, -0.38], 0, { col: false }); L.fax = L.place('fax', [-0.6, 1.04, -0.7], 0.2, { col: false });
-  L.place('workbench', [-2.6, 0, -3.55], 0);
-  L.pc = L.place('pc98', [-3.0, 0.945, -3.6], 0, { col: false }); L.crt = L.place('crt', [-2.2, 0.945, -3.65], -0.15, { col: false });
-  L.place('keyboard', [-2.3, 0.95, -3.22], -0.1, { col: false }); L.place('mouse', [-1.95, 0.95, -3.2], 0, { col: false });
-  L.drawers = L.place('parts_drawers', [-1.25, 0.945, -3.7], 0, { col: false });
-  L.duck = L.place('duck', [-1.9, 0.95, -3.55], 0.6, { col: false });
-  L.place('mug_red', [-3.55, 0.95, -3.3], 0, { col: false });
+  // NOTE: the back-room doorway is at x -3.5..-2.5 on the z=-4 wall. The bench and everything on it sits east of it (WB = bench centre).
+  const WB = -1.2; L.benchX = WB;
+  L.place('workbench', [WB, 0, -3.55], 0);
+  L.pc = L.place('pc98', [WB - 0.4, 0.945, -3.6], 0, { col: false }); L.crt = L.place('crt', [WB + 0.4, 0.945, -3.65], -0.15, { col: false });
+  L.place('keyboard', [WB + 0.3, 0.95, -3.22], -0.1, { col: false }); L.place('mouse', [WB + 0.65, 0.95, -3.2], 0, { col: false });
+  L.drawers = L.place('parts_drawers', [WB + 1.35, 0.945, -3.7], 0, { col: false });
+  L.duck = L.place('duck', [WB + 0.7, 0.95, -3.55], 0.6, { col: false });
+  L.place('mug_red', [WB - 0.8, 0.95, -3.3], 0, { col: false });
   L.place('desk', [3.3, 0, -3.55], 0); L.lcd = L.place('lcd', [3.0, 0.76, -3.7], 0, { col: false }); L.place('keyboard_black', [3.0, 0.77, -3.3], 0, { col: false });
   L.stevePC = L.place('pc98', [4.3, 0.76, -3.65], -0.2, { col: false }); L.place('office_chair', [3.0, 0, -2.75], Math.PI + 0.3);
   L.place('mug', [3.75, 0.77, -3.4], 0, { col: false });
   for (const z of [-2.6, -1.2]) { L.place('shelf', [4.62, 0, z], -Math.PI / 2); for (const y of [0.13, 0.61, 1.09, 1.57]) for (const dz of [-0.35, 0.3]) if (Math.random() < 0.8) L.place(Math.random() < 0.5 ? 'box_a' : 'box_s', [4.62, y, z + dz], Math.random() * 0.3 - 0.15, { col: false, scale: 0.75 }); }
   L.place('filing_cabinet', [-4.62, 0, -0.6], Math.PI / 2); L.coffee = L.place('coffee_machine', [-4.65, 1.3, -0.6], Math.PI / 2, { col: false });
   L.cooler = L.place('water_cooler', [4.55, 0, 1.3], -Math.PI / 2);
-  L.place('plant', [-4.5, 0, 1.55], 0, { shrink: V(0.5, 1, 0.5) }); L.place('plant', [1.9, 0, -3.6], 1, { shrink: V(0.5, 1, 0.5) });
+  L.place('plant', [-4.5, 0, 1.55], 0, { shrink: V(0.5, 1, 0.5) }); L.place('plant', [2.05, 0, -3.65], 1, { shrink: V(0.5, 1, 0.5) });
   L.place('bench', [-3.2, 0, 1.45], Math.PI);
   L.bsod = L.place('photo_bsod', [-4.88, 1.75, -2.4], Math.PI / 2, { col: false });
-  L.y2k = L.place('y2k_box', [-3.6, 0, -3.35], 0.2);
+  L.y2k = L.place('y2k_box', [-4.55, 0, -2.75], 0.2);
   L.place('box_b', [-4.4, 0, -3.5], 0.3); L.place('box_a', [4.2, 0, 0.3], 0.5);
   // seniors sign
   const ss = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.5), new THREE.MeshStandardMaterial({ map: (() => { const t = gen.label('SENIORS 50% OFF', '#ffd84a', '#1e4f8f', 256, 96, 3); return t; })() }));
@@ -136,7 +138,7 @@ export async function buildShop(L, tod = 'day') {
   // back room
   L.place('sofa', [-0.6, 0, -7.45], 0); L.catBed = L.place('cat_bed', [1.25, 0, -6.9], 0, { col: false }); L.bowl = L.place('cat_bowl', [1.4, 0, -4.55], 0, { col: false });
   find(L.bowl, 'food').visible = false;
-  L.place('box_b', [-2.6, 0, -4.6], 0); L.tv = L.place('crt', [-2.6, 0.4, -4.6], Math.PI, { col: false }); L.vhs = L.place('vhs', [-2.15, 0.4, -4.65], 0.3, { col: false });
+  L.place('box_b', [-0.6, 0, -4.45], 0); L.tv = L.place('crt', [-0.6, 0.4, -4.45], Math.PI, { col: false }); L.vhs = L.place('vhs', [-0.15, 0.4, -4.5], 0.3, { col: false });
   L.place('box_a', [-4.5, 0, -7.5], 0); L.radio = L.place('radio', [-4.5, 0.3, -7.5], 0.4, { col: false });
   L.place('plant', [1.6, 0, -7.6], 2, { shrink: V(0.5, 1, 0.5) });
   // secret shelf + armory alcove
@@ -145,7 +147,7 @@ export async function buildShop(L, tod = 'day') {
   L.place('armory_wall', [-7.0, 0, -6.2], Math.PI / 2, { col: false }); L.globe = L.place('globe', [-5.6, 0, -5.3], 0);
   L.safe = L.place('safe', [-6.6, 0, -7.0], Math.PI / 2); L.photo = L.place('photo_ellis', [-5.9, 1.6, -7.38], 0, { col: false });
   L.pointLight(0xffc880, 3, 4, [-6.1, 2.6, -6.2]);
-  // west wall pieces (main + back room with gap for the secret opening)
+  L.keepClear([-3.0, -4.0, 0.75, 0.95], [1.5, 2.0, 0.85, 1.1], [1.4, -4.7, 0.5, 0.45], [-4.95, -6.2, 0.45, 0.85]);
   return L;
 }
 
@@ -167,7 +169,7 @@ export class ShopLevel extends Level {
     this.ellis = new Actor(g, 'ellis', { name: 'ellis', scale: 0.93 }); this.ellis.place(0.1, 0, 0.35, Math.PI); this.add(this.ellis.root);
     this.oleg = new Actor(g, 'oleg', { name: 'oleg', scale: 1.08 }); this.oleg.place(1.5, 0, 12, Math.PI); this.add(this.oleg.root); this.oleg.root.visible = false;
     this.cat = new Actor(g, 'cat', { name: 'cat', radius: 0.15, speed: 0.6 }); this.cat.place(1.25, 0.03, -6.9, 0.5); this.cat.play('sleep'); this.add(this.cat.root);
-    const pl = g.makePlayer(); pl.place(-2.6, 0, -2.6, Math.PI); pl.surface = 'tile';
+    const pl = g.makePlayer(); pl.place(this.benchX, 0, -2.6, Math.PI); pl.surface = 'tile';
     // screens
     this.crtS = this.screenOn(this.crt, 320, 240, (x, s) => drawDoors98(x, s, this.st.crt || 'off')); this.crtS.rate = 0.1;
     this.lcdS = this.screenOn(this.lcd, 320, 190, (x, s) => { x.fillStyle = '#0b1a2a'; x.fillRect(0, 0, 320, 190); pixText(x, "STEVE'S JOB QUEUE", 12, 10, 2, '#ffd84a');
@@ -180,7 +182,7 @@ export class ShopLevel extends Level {
   hint() { return this.hintText; }
   setupInteractions() {
     const g = this.game, st = this.st, L = this;
-    const pcPos = V(-2.85, 1.0, -3.1);
+    const pcPos = V(this.benchX - 0.25, 1.0, -3.1);
     const panel = find(this.pc, 'side_panel'), cmos = find(this.pc, 'cmos');
     this.interact({ pos: pcPos, r: 1.4, priority: 0.5, label: () => ['Open the case', 'Remove the old CMOS battery', 'Install a new battery (you need one)', 'Install the new CR2032', 'Close the case and power on', 'Ms. Ellis\'s PC (running Doors 98)'][st.step] || null,
       cond: () => st.phase === 'fix' || st.step >= 5,
@@ -241,10 +243,10 @@ export class ShopLevel extends Level {
     // cat
     this.interact({ pos: () => this.cat.root.position.clone().setY(0.6), r: 1.1, dy: 1.6, label: () => st.catFed === 1 ? 'Pet Cache (she is eating)' : 'Pet Cache', priority: 0.2, fn: () => this.petCat() });
     // physics toys
-    for (const [m, p, label, o] of [['box_s', [3.6, 0, 0.9], 'cardboard box', {}], ['box_s', [3.9, 0.2, 0.95], 'cardboard box', {}], ['mug', [-0.9, 1.05, -0.45], 'coffee mug', { sound: 'clink' }], ['box_a', [-4.2, 0, -5.0], 'box of cables', {}], ['floppy', [-1.6, 1.05, -0.5], 'floppy disk', { sound: 'clink' }]])
+    for (const [m, p, label, o] of [['box_s', [3.6, 0, 0.9], 'cardboard box', {}], ['box_s', [3.9, 0.2, 0.95], 'cardboard box', {}], ['mug', [-0.9, 1.05, -0.45], 'coffee mug', { sound: 'clink' }], ['box_a', [-2.0, 0, -7.4], 'box of cables', {}], ['floppy', [-1.6, 1.05, -0.5], 'floppy disk', { sound: 'clink' }]])
       this.place(m, p, Math.random(), { dyn: { pick: true, label, ...o } });
   }
-  panelProp() { const p = inst('pc98'); /* visual: lean a spare side panel against the bench */ const sp = find(p, 'side_panel').clone(); sp.position.set(-3.6, 0.21, -3.0); sp.rotation.set(0, 0.4, 0.25); this.add(sp); this.loosePanel = sp; }
+  panelProp() { const p = inst('pc98'); /* visual: lean a spare side panel against the bench */ const sp = find(p, 'side_panel').clone(); sp.position.set(this.benchX - 1.05, 0.21, -3.05); sp.rotation.set(0, 0.4, 0.25); this.add(sp); this.loosePanel = sp; }
   async bootPC() {
     const g = this.game, st = this.st; const panel = find(this.pc, 'side_panel'); panel.visible = true; if (this.loosePanel) this.loosePanel.visible = false;
     audio.sfx('panel_off', { vol: 0.6 }); st.step = 4.5;
@@ -293,12 +295,12 @@ export class ShopLevel extends Level {
       c.shot({ pos: [1.6, 1.55, -1.6], look: [0.1, 1.45, 0.35], fov: 38, dof: true });
       this.ellis.lookAt(g.player.actor.headPos());
       await c.say('c1_01', this.ellis);
-      c.shot({ pos: [0.2, 1.6, 0.0], look: [-2.6, 1.5, -2.6], fov: 36, dof: true });
+      c.shot({ pos: [0.2, 1.6, 0.0], look: [this.benchX, 1.5, -2.6], fov: 36, dof: true });
       g.player.actor.yaw = 0.9; g.player.yaw = 0.9;
       await c.say('c1_02', g.player.actor);
       c.shot({ pos: [-1.4, 1.5, -1.2], look: [0.1, 1.45, 0.35], fov: 34, dof: true });
       await c.say('c1_03', this.ellis);
-      c.shot({ pos: [-0.8, 1.7, -1.0], look: [-2.6, 1.5, -2.6], fov: 40, dof: false, to: { pos: [-1.2, 1.8, -0.4] }, dur: 5 });
+      c.shot({ pos: [-0.8, 1.7, -1.0], look: [this.benchX, 1.5, -2.6], fov: 40, dof: false, to: { pos: [-1.2, 1.8, -0.4] }, dur: 5 });
       await c.say('c1_04', g.player.actor);
       await c.say('c1_05', this.ellis);
     }, { endYaw: Math.PI * 0.15 });
@@ -329,7 +331,7 @@ export class ShopLevel extends Level {
       this.oleg.lookAt(null);
       await c.walk(this.oleg, [[3.6, 0, 0.6]], { speed: 1.1, endYaw: -Math.PI / 2 });
       // Steve carries the PC
-      c.shot({ pos: [-0.5, 1.7, 1.2], look: [-2.6, 1.0, -3.2], fov: 40 });
+      c.shot({ pos: [-0.5, 1.7, 1.2], look: [this.benchX, 1.0, -3.2], fov: 40 });
       await c.say('c1_09', g.player.actor);
       this.pc.visible = false; this.crt.visible = true; this.carried = inst('pc98'); const hb = g.player.actor.bone('hand_R');
       this.carried.scale.setScalar(0.95); this.add(this.carried); g.player.actor.play('carrywalk', 0.2); g.player.override = true;
@@ -488,7 +490,7 @@ export class TitleLevel extends Level {
   async build() {
     const g = this.game; await buildShop(this, 'dusk');
     this.cat = new Actor(g, 'cat', { name: 'cat', collider: false }); this.cat.place(-2.0, 0.55, 1.75, 0.3); this.cat.play('sit'); this.add(this.cat.root);
-    this.steve = new Actor(g, 'steve', { collider: false }); this.steve.place(-2.6, 0, -2.9, Math.PI); this.steve.play('reach'); this.add(this.steve.root);
+    this.steve = new Actor(g, 'steve', { collider: false }); this.steve.place(this.benchX, 0, -2.9, Math.PI); this.steve.play('reach'); this.add(this.steve.root);
     this.screenOn(this.crt, 320, 240, (x, s) => drawDoors98(x, s, 'desktop'));
     audio.ambience('amb_night', 0.5);
   }
@@ -612,7 +614,7 @@ export class EpilogueLevel extends Level {
       // post-credits sting
       this.postCredits = true; g.ui.fade(1, 0.01);
       const cs = g.cutscene; g.state.playing = true;
-      await cs.run(async c => { c.shot({ pos: [-2.2, 1.45, -2.6], look: [-2.2, 1.15, -3.65], fov: 35, dof: true }); this.crt.visible = true; await c.fade(0, 1.2); audio.sfx('crt_on', { vol: 0.8 }); await c.wait(1.0); await c.say('e_post', null); await c.wait(1.5); await c.fade(1, 1.0); });
+      await cs.run(async c => { c.shot({ pos: [this.benchX + 0.4, 1.45, -2.6], look: [this.benchX + 0.4, 1.15, -3.65], fov: 35, dof: true }); this.crt.visible = true; await c.fade(0, 1.2); audio.sfx('crt_on', { vol: 0.8 }); await c.wait(1.0); await c.say('e_post', null); await c.wait(1.5); await c.fade(1, 1.0); });
       g.state.playing = false; g.save.unlocked = 5; g.persist(); g.title();
     });
   }

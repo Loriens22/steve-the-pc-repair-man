@@ -39,6 +39,8 @@ export class Player {
     input.look.x = input.look.y = 0;
     this.camPitch = THREE.MathUtils.clamp(this.camPitch, -0.6, 1.1);
     if (this.seated) { this.actor.yaw = this.yaw; this.actor.update(dt); this.updateCamera(dt, 0); return; }
+    // scripted cutscene walk: the actor drives the position, the kinematic body follows (otherwise the body snaps him back every frame)
+    if (lock && this.actor.walking) { this.actor.update(dt); const p = this.root.position; this.body.setNextKinematicTranslation({ x: p.x, y: p.y, z: p.z }); this.vel.set(0, 0, 0); this.vy = 0; this.yaw = this.actor.yaw; this.updateCamera(dt, 0); return; }
     // movement intent
     let mx = 0, my = 0;
     if (!lock && this.enabled) {
@@ -53,12 +55,13 @@ export class Player {
     // camera-relative
     const cy = this.camYaw + Math.PI;
     const fx = Math.sin(cy), fz = Math.cos(cy);
-    const tx = ml > 0.05 ? (fx * my - fz * mx) : 0; const tz = ml > 0.05 ? (fz * my + fx * mx) : 0;
+    let tx = ml > 0.05 ? (fx * my - fz * mx) : 0, tz = ml > 0.05 ? (fz * my + fx * mx) : 0, mlx = ml;
+    if (g.autoDir && !lock && this.enabled) { tx = g.autoDir.x; tz = g.autoDir.z; mlx = Math.min(1, Math.hypot(tx, tz)); } // test autopilot
     const tl = Math.hypot(tx, tz) || 1;
-    const targetV = _v.set(tx / tl * speed * Math.min(1, ml), 0, tz / tl * speed * Math.min(1, ml));
+    const targetV = _v.set(tx / tl * speed * Math.min(1, mlx), 0, tz / tl * speed * Math.min(1, mlx));
     const accel = this.grounded ? 14 : 4;
     this.vel.x += (targetV.x - this.vel.x) * Math.min(1, dt * accel); this.vel.z += (targetV.z - this.vel.z) * Math.min(1, dt * accel);
-    if (ml > 0.05) { const ty = Math.atan2(targetV.x, targetV.z); let d = ty - this.yaw; d = Math.atan2(Math.sin(d), Math.cos(d)); this.yaw += d * Math.min(1, dt * 12); }
+    if (mlx > 0.05) { const ty = Math.atan2(targetV.x, targetV.z); let d = ty - this.yaw; d = Math.atan2(Math.sin(d), Math.cos(d)); this.yaw += d * Math.min(1, dt * 12); }
     // jump/gravity
     if (!lock && consume('jump') && this.grounded && !this.crouch) { this.vy = 4.6; this.grounded = false; audio.sfx('jump', { vol: 0.5 }); }
     this.vy -= 13 * dt; if (this.vy < -20) this.vy = -20;
