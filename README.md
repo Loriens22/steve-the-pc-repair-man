@@ -8,7 +8,7 @@ A 3D comedy spy game. Steve runs a nondescript PC repair shop in a small office 
 1. **Have You Tried Turning It Off And On Again?** Steve fixes Ms. Ellis's Doors 98 PC (open the case, swap the CR2032, set the BIOS date). The door chime rings and Mr. Thomas (Oleg) walks in and nods. Steve walks Ms. Ellis to her car ("I'll be right with you, Mr. Thomas"). Back inside: the job, an asset under a Swiss mountain, plus a briefcase with a phone, first-class tickets and tools.
 2. **Seat 2A**: first class to Zurich. Clone a sleeping courier's keycard from the overhead bin without Brigitte the flight attendant catching you out of your seat.
 3. **Cold Boot**: a ski chalet on top of a data vault. Night stealth with guards, flashlights and security cameras. There's always a sticky note.
-4. **The Asset**: server halls, a patch-panel elevator, and W.I.N.S.T.O.N., a rogue AI about to push a "Final Update" that bricks every computer older than two years. Steve does what he does best.
+4. **The Asset**: sneak through a guarded server hall (Kernel the server-room cat is asleep on a rack), re-patch the lift's patch panel, and descend to W.I.N.S.T.O.N., a rogue AI about to push a "Final Update" that bricks every legacy computer on Earth, including Ms. Ellis's. The boss fight is a repair job against a 5-minute timer: pull the breakers on three UPS units, find that the main breaker is retina-locked, open the maintenance hatch and pull out WINSTON's giant CMOS battery, then press and hold the power button. Meanwhile WINSTON throws "Are you sure?" pop-up dialogs at you; zap them or blow them away with compressed air.
 5. **Paid In Full**: back at the shop. Ms. Ellis has reset her clock again. Or has she?
 
 ## Controls
@@ -35,6 +35,11 @@ There are 22 easter eggs and 5 floppy disks to find.
 - **Engine**: three.js (rendering, bloom, depth of field), Rapier (physics and character controller), Web Audio, Vite.
 
 No downloaded models, textures, sounds, music or fonts-as-art are used.
+
+## Known issues
+- Guards steer with simple raycasts (no navmesh), so they can occasionally stall at a corner before turning back.
+- Foliage (shrubs/plant leaves) is fairly low-detail.
+- On very old phones the game automatically drops to Low quality; shadows and depth of field are disabled there.
 
 ## Build
 ```

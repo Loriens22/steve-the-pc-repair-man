@@ -119,7 +119,7 @@ export class VaultLevel extends Level {
     }
     // guards
     this.g1 = new Guard(g, { voice: 'guard1', pos: [0, 0, 2.0], yaw: 0, night: true, fov: 70, range: 9, patrol: [[0, 0, 2.0, 3.5, 0], [0, 0, 14.5, 2.5, Math.PI], [-3.8, 0, 12, 1.5], [-3.8, 0, 2.2, 1], [0, 0, 2.0, 0.5]] });
-    this.g2 = new Guard(g, { voice: 'guard2', pos: [6.9, 0, 21], yaw: Math.PI, night: true, fov: 70, range: 8.5, scale: 1.05, patrol: [[6.9, 0, 21, 1.5], [6.9, 0, 1.0, 2.5, -Math.PI / 2], [3.8, 0, 1.0, 0.5], [3.8, 0, 21, 1.5]] });
+    this.g2 = new Guard(g, { voice: 'guard2', pos: [6.9, 0, 18.5], yaw: Math.PI, night: true, fov: 70, range: 8.5, scale: 1.05, patrol: [[6.9, 0, 18.5, 1.5], [6.9, 0, 1.0, 2.5, -Math.PI / 2], [3.8, 0, 1.0, 0.5], [3.8, 0, 18.5, 1.5]] });
     g.guards.push(this.g1, this.g2);
     const pl = g.makePlayer(); pl.place(0, 0, 26.2, Math.PI); pl.surface = 'metal'; pl.gadgets = true; pl.camDist = 3.0;
     this.hallInteractions();

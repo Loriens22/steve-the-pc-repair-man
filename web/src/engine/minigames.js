@@ -119,7 +119,7 @@ export const Mini = {
         pixText(x, 'HARD DISKS    TYPE  SIZE  CYLS', 40, 170, 2, '#aaf'); pixText(x, 'PRIMARY MASTER : AUTO  2100M', 40, 192, 2, '#fff'); pixText(x, 'DRIVE A : 1.44M, 3.5 IN.', 40, 220, 2, '#fff');
         pixText(x, 'VIDEO : EGA/VGA     HALT ON : ALL ERRORS', 40, 248, 2, '#fff');
         pixText(x, 'BASE MEMORY: 640K   EXTENDED: 64512K', 40, 290, 2, '#fff');
-        x.fillStyle = '#00a'; pixText(x, 'ESC:QUIT  \u2190\u2192:SELECT  PU/PD/+/-:MODIFY  F10:SAVE', W / 2, 356, 1, '#aaf', 'center');
+        x.fillStyle = '#00a'; pixText(x, 'ESC:QUIT  <>:SELECT  PU/PD/+/-:MODIFY  F10:SAVE', W / 2, 356, 1, '#aaf', 'center');
         if (msg) { x.fillStyle = '#a00'; x.fillRect(60, 372, W - 120, 30); pixText(x, msg, W / 2, 382, 2, '#fff', 'center'); }
         scanlines(x, W, H, 0.12);
       };
