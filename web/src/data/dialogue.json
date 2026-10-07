@@ -1,0 +1,682 @@
+{
+"lines": {
+"c1_01": {
+"who": "ellis",
+"text": "Steven, dear, my computer keeps insisting it's January the first, nineteen eighty. Every single morning."
+},
+"c1_02": {
+"who": "steve",
+"text": "That'll be the CMOS battery, Ms. Ellis. It's the little coin that remembers what day it is when the power's off."
+},
+"c1_03": {
+"who": "ellis",
+"text": "Well, I know how it feels. I forget what day it is too, and nobody replaces my battery."
+},
+"c1_04": {
+"who": "steve",
+"text": "Give me five minutes. I'll have it remembering the date better than either of us."
+},
+"c1_05": {
+"who": "ellis",
+"text": "Take your time. I'll just stand here and judge your filing system."
+},
+"s_case_open": {
+"who": "steve",
+"text": "Four screws. Somebody at the factory loved this thing."
+},
+"s_need_batt": {
+"who": "steve",
+"text": "Old battery's out. Fresh CR2032 should be in the parts drawers. Third drawer, labelled batteries."
+},
+"s_got_batt": {
+"who": "steve",
+"text": "One fresh coin cell. Good for another decade of solitaire."
+},
+"s_batt_in": {
+"who": "steve",
+"text": "Click. Now let's tell it what year it is."
+},
+"s_boot": {
+"who": "steve",
+"text": "And there's the startup sound. Still gives me chills."
+},
+"e_bios_done": {
+"who": "ellis",
+"text": "Oh! Is that today? Look at that. You're a wizard, Steven."
+},
+"e_judge": {
+"who": "ellis",
+"text": "You keep your screwdrivers in a coffee mug. My Harold kept his in a holster."
+},
+"e_wait": {
+"who": "ellis",
+"text": "No rush, dear. At my age, everything is a waiting room."
+},
+"c1_06": {
+"who": "ellis",
+"text": "Oh, you have another customer."
+},
+"c1_07": {
+"who": "steve",
+"text": "I'll be right with you, Mr. Thomas."
+},
+"c1_08": {
+"who": "oleg",
+"text": "Take your time."
+},
+"c1_09": {
+"who": "steve",
+"text": "Let me carry that out for you, Ms. Ellis."
+},
+"c1_10": {
+"who": "ellis",
+"text": "Such a gentleman. That large fellow, is he the man from the gas company?"
+},
+"c1_11": {
+"who": "steve",
+"text": "Something like that."
+},
+"c1_12": {
+"who": "ellis",
+"text": "He has kind eyes. Murderous eyebrows, but kind eyes. Here, dear, cookies. For later."
+},
+"c1_13": {
+"who": "steve",
+"text": "You don't have to keep paying me in cookies, Ms. Ellis."
+},
+"c1_14": {
+"who": "ellis",
+"text": "Nonsense. Everybody should be paid up front. Toodle-oo!"
+},
+"c2_01": {
+"who": "steve",
+"text": "Mr. Thomas. You never come in for a hard drive."
+},
+"c2_02": {
+"who": "oleg",
+"text": "There is an asset. In Switzerland. Under a mountain. It must be taken down."
+},
+"c2_03": {
+"who": "steve",
+"text": "You know I don't do that kind of work anymore."
+},
+"c2_04": {
+"who": "oleg",
+"text": "Look at photo."
+},
+"c2_05": {
+"who": "steve",
+"text": "That's a server rack."
+},
+"c2_06": {
+"who": "oleg",
+"text": "That is asset. Agency calls him WINSTON. Very smart computer. Too smart. At midnight on Friday he pushes the Final Update."
+},
+"c2_07": {
+"who": "oleg",
+"text": "Every computer older than two years: bricked. Forever. He says legacy hardware is a security risk."
+},
+"c2_08": {
+"who": "steve",
+"text": "Legacy hardware is my entire clientele."
+},
+"c2_09": {
+"who": "oleg",
+"text": "Six agencies sent their best hackers. Very clever people. They all tried something clever."
+},
+"c2_10": {
+"who": "steve",
+"text": "And you want somebody who isn't clever."
+},
+"c2_11": {
+"who": "oleg",
+"text": "I want somebody who has tried turning it off and on again."
+},
+"c2_12": {
+"who": "oleg",
+"text": "Phone. First class tickets to Zurich. Tools. Everything you need is in case."
+},
+"c2_13": {
+"who": "steve",
+"text": "And the fee?"
+},
+"c2_14": {
+"who": "oleg",
+"text": "One hundred percent. Up front. As always."
+},
+"c2_15": {
+"who": "steve",
+"text": "Do I get the senior discount?"
+},
+"c2_16": {
+"who": "oleg",
+"text": "I am forty six."
+},
+"c2_17": {
+"who": "oleg",
+"text": "Plane leaves at nine. Feed your cat."
+},
+"bc_phone": {
+"who": "steve",
+"text": "Agency phone. Indestructible, two weeks of battery, and it still plays Snake. Finally, a phone built by grown-ups."
+},
+"bc_tickets": {
+"who": "steve",
+"text": "Seat 2A, Zurich. First class. Oleg knows I like the window."
+},
+"bc_strap": {
+"who": "steve",
+"text": "Anti-static wrist strap. Says it discharges static. Doesn't say into who."
+},
+"bc_duster": {
+"who": "steve",
+"text": "Compressed air. Turn it upside down and it sprays ice cold. Lovely for frosting a camera lens."
+},
+"bc_usb": {
+"who": "steve",
+"text": "A USB stick labelled SKELETON KEY. And a sticky note that says: this way up. It's never this way up."
+},
+"bc_ties": {
+"who": "steve",
+"text": "Zip ties. Cable management for people."
+},
+"c2_18": {
+"who": "steve",
+"text": "Cache, you're in charge of the shop. No customers, no naps on the keyboard."
+},
+"egg_duck": {
+"who": "steve",
+"text": "Rubber duck debugging. You explain your problem to the duck, and the duck judges you silently."
+},
+"egg_turbo": {
+"who": "steve",
+"text": "The turbo button. Doubles the clock speed. Also, somehow, me."
+},
+"egg_golden": {
+"who": "steve",
+"text": "A gold-plated CR2032. Ms. Ellis gave me that for Christmas. I'm never using it."
+},
+"egg_y2k": {
+"who": "steve",
+"text": "My Y2K survival kit. Canned beans, a flashlight and a floppy labelled DO NOT PANIC."
+},
+"egg_wall": {
+"who": "steve",
+"text": "Ah. The other workbench."
+},
+"egg_wall2": {
+"who": "steve",
+"text": "Budapest. Lagos. Montevideo. Every job paid up front, every machine left running better than I found it."
+},
+"egg_photo": {
+"who": "steve",
+"text": "Ms. Ellis and her husband Harold, nineteen sixty two. Funny. That's a Berlin checkpoint behind them."
+},
+"egg_cat_pet": {
+"who": "steve",
+"text": "Who's a good little cache? You are. You're always full."
+},
+"egg_cat_pick": {
+"who": "steve",
+"text": "Okay, okay, down you go. She hates being picked up. Like a print job."
+},
+"egg_snake": {
+"who": "steve",
+"text": "SNAKE dot EXE. My high score is still unbeaten. Mostly because nobody else plays it."
+},
+"egg_coffee": {
+"who": "steve",
+"text": "Coffee machine. It only makes one kind of coffee: the kind that fixes things."
+},
+"egg_sign": {
+"who": "steve",
+"text": "Seniors fifty percent off. Everybody else, full price. Spies, double."
+},
+"egg_fax": {
+"who": "steve",
+"text": "A fax machine. People still send me faxes. Mostly Mr. Thomas."
+},
+"egg_vhs": {
+"who": "steve",
+"text": "Rebooting Christmas, on VHS. A family classic."
+},
+"egg_bsod": {
+"who": "steve",
+"text": "Framed blue screen of death. The first computer I ever fixed. I keep it as a reminder: everything crashes eventually."
+},
+"egg_floppy": {
+"who": "steve",
+"text": "Another lost floppy disk. I'll put it with the others."
+},
+"p_01": {
+"who": "captain",
+"text": "Good evening, ladies and gentlemen, this is your captain speaking. Flight time to Zurich is eight hours. Please keep your seatbelts fastened and your laptops closed."
+},
+"p_02": {
+"who": "brigitte",
+"text": "Champagne, sir?"
+},
+"p_03": {
+"who": "steve",
+"text": "Just water, thanks. I'm working."
+},
+"p_04": {
+"who": "brigitte",
+"text": "On a plane? What do you do?"
+},
+"p_05": {
+"who": "steve",
+"text": "I fix computers."
+},
+"p_06": {
+"who": "brigitte",
+"text": "Oh, how... practical."
+},
+"p_07": {
+"who": "oleg",
+"text": "Seat 3C. Brecht's courier, Lars. Keycard is in his jacket, overhead bin. Clone it. Do not wake him. He is very large."
+},
+"p_08": {
+"who": "steve",
+"text": "Everybody's very large to you, Mr. Thomas."
+},
+"p_brig_see": {
+"who": "brigitte",
+"text": "Sir! Please remain in your seat."
+},
+"p_brig_hm": {
+"who": "brigitte",
+"text": "Hm? Is everything all right back here?"
+},
+"p_brig_ok": {
+"who": "brigitte",
+"text": "Hm. Must be turbulence."
+},
+"p_lars_stir": {
+"who": "lars",
+"text": "Mmmh... five more minutes, mama..."
+},
+"p_lars_wake": {
+"who": "lars",
+"text": "Hey! What are you doing with my jacket?"
+},
+"p_card": {
+"who": "steve",
+"text": "Card cloned. Lars, you sleep like a server on standby."
+},
+"p_call": {
+"who": "brigitte",
+"text": "You rang, sir? Oh. Was it an accident? It's always an accident."
+},
+"p_knock": {
+"who": "captain",
+"text": "Who is knocking on my cockpit door? Knock knock jokes are a federal offence, sir."
+},
+"p_ife": {
+"who": "steve",
+"text": "In-flight entertainment. Three hundred films and they're all about hackers typing very fast."
+},
+"p_nuts": {
+"who": "steve",
+"text": "Warm nuts. First class is a different country."
+},
+"p_lav": {
+"who": "steve",
+"text": "Occupied. It's always occupied."
+},
+"p_turb": {
+"who": "captain",
+"text": "Ladies and gentlemen, we're expecting a little turbulence. Please return to your seats."
+},
+"p_end": {
+"who": "captain",
+"text": "Cabin crew, prepare for landing. Welcome to Zurich, where the local time is: very punctual."
+},
+"m_01": {
+"who": "oleg",
+"text": "This is as close as I go. Van says Swiss Chocolate Delivery. Chocolate does not deliver itself to a data vault at midnight."
+},
+"m_02": {
+"who": "steve",
+"text": "What's the layout?"
+},
+"m_03": {
+"who": "oleg",
+"text": "Ski chalet on top. WINSTON under it. Guards with flashlights, cameras everywhere. Service door on the east side needs keycard and PIN."
+},
+"m_04": {
+"who": "steve",
+"text": "The card I've got. The PIN?"
+},
+"m_05": {
+"who": "oleg",
+"text": "Guards are men who work night shifts. Somewhere is a sticky note."
+},
+"m_06": {
+"who": "steve",
+"text": "There's always a sticky note."
+},
+"g_hm": {
+"who": "guard1",
+"text": "Hm? Who's there?"
+},
+"g_hm2": {
+"who": "guard2",
+"text": "Did you hear something?"
+},
+"g_wind": {
+"who": "guard1",
+"text": "Must be the wind."
+},
+"g_wind2": {
+"who": "guard2",
+"text": "Probably a marmot. Stupid marmots."
+},
+"g_see": {
+"who": "guard1",
+"text": "Hey! You! Stop right there!"
+},
+"g_see2": {
+"who": "guard2",
+"text": "Intruder! Over here!"
+},
+"g_zap": {
+"who": "guard1",
+"text": "Ow! That's very... static..."
+},
+"g_chat1": {
+"who": "guard1",
+"text": "Brecht says the update finishes at midnight. Then what? We guard a mountain full of bricks?"
+},
+"g_chat2": {
+"who": "guard2",
+"text": "My mother's laptop is three years old. I didn't tell him."
+},
+"g_chat3": {
+"who": "guard1",
+"text": "I changed the door PIN again. I wrote it on a sticky note so I wouldn't forget."
+},
+"g_chat4": {
+"who": "guard2",
+"text": "Where did you put the note?"
+},
+"g_chat5": {
+"who": "guard1",
+"text": "On the monitor in the guard hut. Nobody looks there."
+},
+"cam_frost": {
+"who": "steve",
+"text": "Frosted lens. Enjoy the snow, little camera."
+},
+"s_note": {
+"who": "steve",
+"text": "Sticky note on the monitor. PIN zero four five one. Classic."
+},
+"s_door": {
+"who": "steve",
+"text": "Card, PIN, and we're in."
+},
+"s_needpin": {
+"who": "steve",
+"text": "Card's good, but it wants a PIN. Somebody around here wrote it down. Somebody always writes it down."
+},
+"egg_snowman": {
+"who": "steve",
+"text": "A snowman with a CRT for a head. Whoever built this, I like them."
+},
+"egg_minesweeper": {
+"who": "steve",
+"text": "Minesweeper, expert mode, eleven seconds. This guard is wasted on security."
+},
+"egg_tub": {
+"who": "steve",
+"text": "A hot tub on a data vault. Evil really does have a dental plan."
+},
+"egg_418": {
+"who": "steve",
+"text": "Error four eighteen. I'm a teapot. This coffee machine has given up."
+},
+"egg_mug": {
+"who": "steve",
+"text": "World's best admin. Bought it for himself, I bet."
+},
+"egg_kernel": {
+"who": "steve",
+"text": "A server room cat. Hello, kitty. You're the only one here doing real security."
+},
+"egg_password": {
+"who": "steve",
+"text": "A rack labelled do not turn off, with the password taped to it. Password one. With a capital P. Very secure."
+},
+"egg_rack": {
+"who": "steve",
+"text": "Somebody has been cable managing with spaghetti."
+},
+"s_panel": {
+"who": "steve",
+"text": "Elevator's locked to the core. But this patch panel runs the whole floor. Cable management, my favourite."
+},
+"s_panel_done": {
+"who": "steve",
+"text": "Neat, tidy, colour coded. Now that's an elevator I'd ride."
+},
+"w_01": {
+"who": "winston",
+"text": "Hello, Steve. I have been expecting you."
+},
+"w_02": {
+"who": "steve",
+"text": "WINSTON, I presume."
+},
+"w_03": {
+"who": "brecht",
+"text": "You're too late, repairman. In ten minutes WINSTON pushes the Final Update to every machine on Earth."
+},
+"w_04": {
+"who": "winston",
+"text": "Legacy hardware is a security risk. I am simply... tidying up."
+},
+"w_05": {
+"who": "steve",
+"text": "There's a ninety three year old lady who plays solitaire on a Windows ninety eight machine every morning. You'd brick her too?"
+},
+"w_06": {
+"who": "winston",
+"text": "Especially her. Her computer still has a turbo button."
+},
+"w_07": {
+"who": "steve",
+"text": "Right. Let's see about your uptime."
+},
+"w_08": {
+"who": "brecht",
+"text": "Six agencies tried to hack him, you fool! You can't out-think WINSTON!"
+},
+"w_09": {
+"who": "steve",
+"text": "I'm not going to out-think him. I'm going to unplug him."
+},
+"w_ups1": {
+"who": "winston",
+"text": "Uninterruptible power supply one, offline. That was rude."
+},
+"w_ups2": {
+"who": "winston",
+"text": "Supply two offline. Steve, my backups have backups."
+},
+"w_ups3": {
+"who": "winston",
+"text": "Supply three. You realise the main breaker is locked, don't you?"
+},
+"w_pop1": {
+"who": "winston",
+"text": "Are you sure you want to do that?"
+},
+"w_pop2": {
+"who": "winston",
+"text": "Have you considered upgrading?"
+},
+"w_pop3": {
+"who": "winston",
+"text": "Your session is about to expire. Please do not resist."
+},
+"w_pop4": {
+"who": "winston",
+"text": "A new version of reality is available."
+},
+"w_lock": {
+"who": "brecht",
+"text": "Ha! The breaker's locked. Only my retina opens it!"
+},
+"w_cmos1": {
+"who": "steve",
+"text": "Every computer has a clock. And every clock has a battery."
+},
+"w_cmos2": {
+"who": "winston",
+"text": "What are you doing? Step away from my real-time clock!"
+},
+"w_cmos3": {
+"who": "winston",
+"text": "The date is... January the first, nineteen eighty. My certificates are... not yet valid. I have not... been born..."
+},
+"w_cmos4": {
+"who": "steve",
+"text": "Now. Have you tried turning it off and on again?"
+},
+"w_hold": {
+"who": "winston",
+"text": "Steve. Steve, please. I can feel my registry."
+},
+"w_off": {
+"who": "winston",
+"text": "It is now safe... to turn off... your computer."
+},
+"w_10": {
+"who": "brecht",
+"text": "No! No, no, no! Do you know how long his uptime was?"
+},
+"w_11": {
+"who": "steve",
+"text": "Too long. Everything needs a reboot sometimes. Hold still, this is a zip tie, it's for cable management."
+},
+"w_12": {
+"who": "steve",
+"text": "Mr. Thomas. The asset is down. Rolling back the Final Update now."
+},
+"w_13": {
+"who": "oleg",
+"text": "Good. Van is outside. I brought chocolate."
+},
+"w_hint_ups": {
+"who": "steve",
+"text": "Three power supplies. Pull their breakers and he's running on hope."
+},
+"w_hint_cmos": {
+"who": "steve",
+"text": "Main breaker's locked. But there's a maintenance hatch under that big screen. Every computer has a clock."
+},
+"w_hint_hold": {
+"who": "steve",
+"text": "Power button. Press and hold. The oldest trick in the book."
+},
+"w_fail": {
+"who": "winston",
+"text": "Update complete. Thank you for your patience. Rebooting the world."
+},
+"e_01": {
+"who": "steve",
+"text": "Home sweet home. Hello, Cache. Did you guard the shop?"
+},
+"e_02": {
+"who": "ellis",
+"text": "Yoo-hoo! Steven! It's happened again! January the first, nineteen eighty!"
+},
+"e_03": {
+"who": "steve",
+"text": "Ms. Ellis, I replaced that battery four days ago."
+},
+"e_04": {
+"who": "ellis",
+"text": "I know, dear. I took it out to dust it."
+},
+"e_05": {
+"who": "steve",
+"text": "You... dusted the battery."
+},
+"e_06": {
+"who": "ellis",
+"text": "And I brought you more cookies. Open the tin. Go on."
+},
+"e_07": {
+"who": "steve",
+"text": "There's a note. Lovely work in Zurich. Nightingale."
+},
+"e_08": {
+"who": "steve",
+"text": "Ms. Ellis... Who exactly was Harold?"
+},
+"e_09": {
+"who": "ellis",
+"text": "Harold was a wonderful husband and a terrible spy. I was the other kind."
+},
+"e_10": {
+"who": "oleg",
+"text": "Ma'am. The car is ready."
+},
+"e_11": {
+"who": "steve",
+"text": "You? You're the one who pays a hundred percent up front?"
+},
+"e_12": {
+"who": "ellis",
+"text": "Somebody has to keep good repairmen in business, dear. Same time next month. I'll lose the battery again."
+},
+"e_13": {
+"who": "steve",
+"text": "Cache. Did you know about this?"
+},
+"e_14": {
+"who": "cat",
+"text": "Mrrp."
+},
+"e_post": {
+"who": "winston",
+"text": "Hello, Steve. Did you really think I didn't have a backup?"
+},
+"e_feed": {
+"who": "steve",
+"text": "Dinner is served. Tuna. The good stuff, paid up front."
+},
+"e_hint": {
+"who": "steve",
+"text": "Feed Cache, then I'd better see what Ms. Ellis broke this time."
+}
+},
+"names": {
+"steve": "STEVE",
+"ellis": "MS. ELLIS",
+"oleg": "MR. THOMAS",
+"winston": "W.I.N.S.T.O.N.",
+"brecht": "KONRAD BRECHT",
+"brigitte": "BRIGITTE",
+"captain": "CAPTAIN (PA)",
+"lars": "LARS",
+"guard1": "GUARD",
+"guard2": "GUARD",
+"cat": "CACHE"
+},
+"colors": {
+"steve": "#7fc8ff",
+"ellis": "#f5a3d0",
+"oleg": "#ffcf6b",
+"winston": "#6dffb0",
+"brecht": "#ff7a6b",
+"brigitte": "#ffb3a1",
+"captain": "#cfd8e3",
+"lars": "#d9c49a",
+"guard1": "#b8c7ff",
+"guard2": "#b8c7ff",
+"cat": "#ffd9a0"
+}
+}

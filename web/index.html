@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b0f17">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="Steve The PC Repair Man - a 3D comedy spy adventure. Every model, texture, sound, song and voice was generated procedurally.">
+<title>Steve The PC Repair Man</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%231e4f8f'/><rect x='3' y='3' width='10' height='7' fill='%23ffd84a'/><rect x='6' y='11' width='4' height='2' fill='%23fff'/></svg>">
+<link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="fade"></div>
+<div id="lb-top" class="lb"></div><div id="lb-bot" class="lb"></div>
+
+<!-- HUD -->
+<div id="hud" class="hidden">
+  <div id="objective"><div class="lbl">OBJECTIVE</div><div id="obj-text"></div></div>
+  <div id="topright"><span id="secrets-count">SECRETS 0/20</span></div>
+  <div id="detect"><div id="detect-icon">?</div></div>
+  <div id="prompt" class="hidden"><span class="key">E</span><span id="prompt-text"></span></div>
+  <div id="holdbar" class="hidden"><div></div></div>
+  <div id="gadgets" class="hidden">
+    <div class="gadget" id="g-zap"><b>Q</b> ZAP<i></i></div>
+    <div class="gadget" id="g-duster"><b>R</b> AIR<i></i></div>
+  </div>
+  <div id="timer" class="hidden"></div>
+  <div id="dot"></div>
+</div>
+<div id="toasts"></div>
+<div id="subtitle" class="hidden"><div id="sub-name"></div><div id="sub-text"></div></div>
+<div id="skip" class="hidden">Hold <b>X</b> / tap &raquo; to skip <span id="skipbar"></span></div>
+<button id="skipbtn" class="hidden" aria-label="Skip cutscene">SKIP &raquo;</button>
+<div id="chapter" class="hidden"><div id="ch-num"></div><div id="ch-title"></div></div>
+<div id="bigmsg" class="hidden"></div>
+
+<!-- touch controls -->
+<div id="touch" class="hidden">
+  <div id="stickzone"></div>
+  <div id="lookzone"></div>
+  <div id="stick"><div id="knob"></div></div>
+  <div id="tbtns">
+    <button data-act="use" class="tb big" id="tb-use">USE</button>
+    <button data-act="jump" class="tb" id="tb-jump">JUMP</button>
+    <button data-act="crouch" class="tb" id="tb-crouch">SNEAK</button>
+    <button data-act="throw" class="tb" id="tb-throw">THROW</button>
+    <button data-act="zap" class="tb gad" id="tb-zap">ZAP</button>
+    <button data-act="duster" class="tb gad" id="tb-duster">AIR</button>
+  </div>
+  <button data-act="phone" class="tb small" id="tb-phone">&#9742;</button>
+  <button data-act="pause" class="tb small" id="tb-pause">II</button>
+  <button data-act="sprint" class="tb small" id="tb-sprint">RUN</button>
+</div>
+
+<!-- phone -->
+<div id="phone" class="hidden">
+  <div class="phone-body">
+    <div class="phone-top"><span>AGENCY-PHONE 3310</span><span id="phone-clock"></span></div>
+    <div class="phone-screen" id="phone-screen"></div>
+    <div class="phone-tabs"><button data-tab="obj">TASK</button><button data-tab="msg">MSG</button><button data-tab="secrets">EGGS</button><button data-tab="snake">SNAKE</button></div>
+    <button class="phone-close">CLOSE</button>
+  </div>
+</div>
+
+<!-- minigame -->
+<div id="mini" class="hidden"><div id="mini-box"><div id="mini-title"></div><canvas id="mini-c" width="640" height="420"></canvas><div id="mini-help"></div><div id="mini-btns"></div><button id="mini-close">&times;</button></div></div>
+
+<!-- menus -->
+<div id="title" class="screen hidden">
+  <div class="logo"><div class="l1">STEVE</div><div class="l2">THE PC REPAIR MAN</div><div class="l3">fixer of computers &middot; fixer of problems</div></div>
+  <div class="menu" id="title-menu"></div>
+  <div class="foot">Every model, texture, sound, song and voice in this game was generated from code. &nbsp;<span id="ver"></span></div>
+</div>
+<div id="pause" class="screen hidden"><h2>PAUSED</h2><div class="menu" id="pause-menu"></div></div>
+<div id="settings" class="screen hidden"><h2>SETTINGS</h2><div id="settings-body"></div><div class="menu"><button id="settings-back">Back</button></div></div>
+<div id="panel" class="screen hidden"><h2 id="panel-title"></h2><div id="panel-body"></div><div class="menu"><button id="panel-back">Back</button></div></div>
+<div id="caught" class="screen hidden"><h2 id="caught-title">CAUGHT</h2><p id="caught-text"></p><div class="menu"><button id="caught-retry">Try again</button></div></div>
+<div id="credits" class="hidden"><div id="credits-roll"></div></div>
+<div id="rotate" class="hidden"><div>&#x21bb;</div><p>Rotate your phone to landscape for the best experience</p><button id="rotate-ok">Play in portrait anyway</button></div>
+
+<div id="loading" class="screen">
+  <div class="logo small"><div class="l1">STEVE</div><div class="l2">THE PC REPAIR MAN</div></div>
+  <div id="boot"></div>
+  <div id="loadbar"><div id="loadfill"></div></div>
+  <div id="loadtxt">Loading...</div>
+  <button id="startbtn" class="hidden">CLICK TO START</button>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
