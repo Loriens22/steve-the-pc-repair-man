@@ -21,7 +21,8 @@ export class Audit {
     const nx = Math.ceil((b[1] - b[0]) / cell), nz = Math.ceil((b[3] - b[2]) / cell);
     const gy = new Float32Array(nx * nz), st = new Uint8Array(nx * nz), why = new Array(nx * nz);
     const shape = new R.Capsule(HALF, RAD), rot = { x: 0, y: 0, z: 0, w: 1 };
-    const pred = c => { const m = P.meta.get(c.handle); return !!m && m.type === 'static' && !c.isSensor(); };
+    const types = o.block || ['static'];
+    const pred = c => { const m = P.meta.get(c.handle); return !!m && types.includes(m.type) && !c.isSensor() && !(m.dyn && m.dyn.held); };
     for (let j = 0; j < nz; j++) for (let i = 0; i < nx; i++) {
       const k = j * nx + i, x = b[0] + (i + 0.5) * cell, z = b[2] + (j + 0.5) * cell;
       const hit = W.castRay(new R.Ray({ x, y: floor + 1.0, z }, { x: 0, y: -1, z: 0 }), 2.0, true, undefined, undefined, undefined, undefined, pred);
@@ -59,7 +60,10 @@ export class Audit {
   // what counts as "standing in range" of a target, from a cell
   goalFn(t) {
     if (t.kind === 'trigger') return (c) => Math.abs(c.x - t.c.x) < t.h.x - 0.08 && Math.abs(c.z - t.c.z) < t.h.z - 0.08 && Math.abs(c.y + 0.9 - t.c.y) < t.h.y;
-    return (c) => { const p = t.p(); if (!p) return false; return Math.hypot(c.x - p.x, c.z - p.z) <= t.r - 0.1 && Math.abs(p.y - (c.y + 1)) <= t.dy; };
+    // in range AND a clear line from Steve's chest to the target (static geometry only; a hit within 0.45 m of the target is the object itself)
+    return (c, noLos) => { const p = t.p(); if (!p) return false; if (!(Math.hypot(c.x - p.x, c.z - p.z) <= t.r - 0.1 && Math.abs(p.y - (c.y + 1)) <= t.dy)) return false;
+      if (noLos) return true; const P = this.g.physics, a = new THREE.Vector3(c.x, c.y + 1.2, c.z), d = new THREE.Vector3().subVectors(p, a), len = d.length(); if (len < 0.5) return true; d.normalize();
+      const h = P.raycast(a, d, len, m => m.type === 'static'); return !h || h.toi >= len - 0.45; };
   }
   targets() {
     const g = this.g, out = [];
@@ -76,8 +80,9 @@ export class Audit {
     for (const t of this.targets()) {
       const goal = this.goalFn(t); let ok = false, best = 1e9;
       for (let k = 0; k < G.st.length; k++) { if (F.dist[k] < 0) continue; const c = this.cpos(G, k); if (goal(c)) { ok = true; break; } }
+      let wall = false; if (!ok && t.kind === 'interact') for (let k = 0; k < G.st.length; k++) { if (F.dist[k] >= 0 && goal(this.cpos(G, k), true)) { wall = true; break; } }
       if (!ok && t.kind === 'interact') { const p = t.p(); if (p) for (let k = 0; k < G.st.length; k++) if (F.dist[k] >= 0) { const c = this.cpos(G, k); best = Math.min(best, Math.hypot(c.x - p.x, c.z - p.z)); } }
-      res.push({ label: t.label, kind: t.kind, active: t.active, ok, gap: ok ? 0 : +(best - t.r).toFixed(2), seated: !!pl.seated });
+      res.push({ label: t.label, kind: t.kind, active: t.active, ok, throughWall: wall, gap: ok ? 0 : +(best - t.r).toFixed(2), seated: !!pl.seated });
     }
     // name the colliders that block cells next to reachable area (for oversized-collider review)
     let walk = 0, reached = 0; for (let k = 0; k < G.st.length; k++) { if (G.st[k] === 2) walk++; if (F.dist[k] >= 0) reached++; }
@@ -92,6 +97,7 @@ export class Audit {
     dot(this.g.player.pos.x, this.g.player.pos.z, '#39f', 5);
     return cv.toDataURL('image/png');
   }
+  probe(x, z, y = 0) { const P = this.g.physics, out = []; P.world.intersectionsWithShape({ x, y: y + HALF + RAD + 0.06, z }, { x: 0, y: 0, z: 0, w: 1 }, new R.Capsule(HALF, RAD), c => { const m = P.meta.get(c.handle) || {}; const t = c.translation(); out.push({ type: m.type, label: m.dyn && m.dyn.label, at: [+t.x.toFixed(2), +t.y.toFixed(2), +t.z.toFixed(2)], he: c.halfExtents ? (({ x, y, z }) => [+x.toFixed(2), +y.toFixed(2), +z.toFixed(2)])(c.halfExtents()) : null, enabled: c.isEnabled() }); return true; }); return out; }
   // ------------------------------------------------------------------ autopilot
   sleep(gameSec) { const t0 = this.g.time; return new Promise(r => { const f = () => (this.g.time - t0 >= gameSec ? r() : requestAnimationFrame(f)); f(); }); }
   waitFor(fn, maxReal = 600, label = '') { const t0 = performance.now(); return new Promise((res, rej) => { const f = () => { let v = false; try { v = fn(); } catch (e) {} if (v) res(true); else if (performance.now() - t0 > maxReal * 1000) rej(new Error('timeout waiting for ' + label)); else requestAnimationFrame(f); }; f(); }); }
@@ -104,7 +110,7 @@ export class Audit {
       await this.waitIdle();
       const pl = g.player, here = { x: pl.pos.x, z: pl.pos.z, y: pl.pos.y };
       if (goal(here)) { g.autoDir = null; return { ok: true }; }
-      const G = this.grid(); const start = this.nearestWalk(G, here.x, here.z, 1.0); const F = this.flood(G, start);
+      const G = this.grid(replans ? { block: ['static', 'npc', 'dyn'] } : {}); const start = this.nearestWalk(G, here.x, here.z, 1.0); const F = this.flood(G, start);
       let gk = -1, gd = 1e9; for (let k = 0; k < G.st.length; k++) if (F.dist[k] >= 0 && F.dist[k] < gd && goal(this.cpos(G, k))) { gd = F.dist[k]; gk = k; }
       if (gk < 0) { g.autoDir = null; return { ok: false, reason: 'no walkable path to ' + t.label }; }
       const path = []; for (let k = gk; k >= 0; k = F.par[k]) path.unshift(this.cpos(G, k));
@@ -115,15 +121,18 @@ export class Audit {
         if (goal({ x: p.x, z: p.z, y: p.y })) { g.autoDir = null; return { ok: true }; }
         while (wi < path.length - 1 && Math.hypot(path[wi].x - p.x, path[wi].z - p.z) < 0.3) wi++;
         // look ahead: aim at the furthest waypoint within 1.2 m to smooth the staircase path
-        let aim = wi; while (aim < path.length - 1 && Math.hypot(path[aim + 1].x - p.x, path[aim + 1].z - p.z) < 1.2) aim++;
+        // string-pull: aim at the furthest waypoint (<= 1.5 m) whose straight line stays on walkable cells, so it never cuts a door frame
+        const clear = (q) => { const dx = q.x - p.x, dz = q.z - p.z, n = Math.ceil(Math.hypot(dx, dz) / 0.08); for (let s2 = 1; s2 <= n; s2++) { const k = this.cellOf(G, p.x + dx * s2 / n, p.z + dz * s2 / n); if (k < 0 || G.st[k] !== 2) return false; } return true; };
+        let aim = wi; while (aim < path.length - 1 && Math.hypot(path[aim + 1].x - p.x, path[aim + 1].z - p.z) < 1.5 && clear(path[aim + 1])) aim++;
         const dx = path[aim].x - p.x, dz = path[aim].z - p.z, dl = Math.hypot(dx, dz) || 1;
         g.autoDir = { x: dx / dl, z: dz / dl };
         await new Promise(r => requestAnimationFrame(r));
         if (g.time - lastProg > 3) { const moved = Math.hypot(p.x - lastPos.x, p.z - lastPos.z); if (moved < 0.2) { stuck = true; break; } lastProg = g.time; lastPos = { x: p.x, z: p.z }; }
         if (wi >= path.length - 1 && Math.hypot(path[path.length - 1].x - p.x, path[path.length - 1].z - p.z) < 0.15) break;
       }
+      const ad = g.autoDir || { x: 0, z: 0 }, pp = g.player.pos, ahead = stuck ? this.probe(pp.x + ad.x * 0.3, pp.z + ad.z * 0.3, pp.y).filter(q => q.type !== 'player') : [];
       g.autoDir = null;
-      if (stuck) { this.note('STUCK at ' + g.player.pos.x.toFixed(2) + ',' + g.player.pos.z.toFixed(2) + ' going to ' + t.label); if (++replans > 3) return { ok: false, reason: 'stuck at ' + g.player.pos.x.toFixed(2) + ',' + g.player.pos.z.toFixed(2) }; }
+      if (stuck) { this.note('STUCK (blocked by ' + JSON.stringify(ahead) + ') at ' + g.player.pos.x.toFixed(2) + ',' + g.player.pos.z.toFixed(2) + ' going to ' + t.label); if (++replans > 3) return { ok: false, reason: 'stuck at ' + g.player.pos.x.toFixed(2) + ',' + g.player.pos.z.toFixed(2) }; }
       else if (++replans > 6) return { ok: false, reason: 'could not settle in range' };
     }
   }

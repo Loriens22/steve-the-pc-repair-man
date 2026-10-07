@@ -10,7 +10,7 @@ async def start(b, base, level, cp, mobile, extra=''):
     pg = await ctx.new_page(); logs = []
     pg.on('console', lambda m: (logs.append(m.text), m.text.startswith('AUDIT') and print(m.text, flush=True)))
     pg.on('pageerror', lambda e: (logs.append('[pageerror] ' + str(e)), print('[pageerror]', e, flush=True)))
-    url = f"{base}?level={level}&dtcap=0.25&win=250&q=low{('&cp=' + cp) if cp else ''}{extra}"
+    url = f"{base}?level={level}&dtcap=0.1&win=250&q=low{('&cp=' + cp) if cp else ''}{extra}"
     await pg.goto(url)
     await pg.wait_for_function("!document.querySelector('#startbtn').classList.contains('hidden')", timeout=300000)
     await pg.evaluate("document.querySelector('#startbtn').click()")
@@ -33,7 +33,7 @@ async def main():
                 if img: open(f'{out}/reach_{name}.png', 'wb').write(base64.b64decode(img.split(',')[1]))
                 bad = [t for t in r['targets'] if not t['ok']]
                 print(f"== {r['level']} ({spec}) spawn {r['spawn']} walkable {r['walk']} reached {r['reached']} ({r['ms']} ms)  targets {len(r['targets'])}, unreachable {len(bad)}", flush=True)
-                for t in r['targets']: print(('   OK  ' if t['ok'] else '   XX  ') + ('' if t['active'] else '(inactive) ') + t['label'] + ('' if t['ok'] else f"  gap {t['gap']} m"), flush=True)
+                for t in r['targets']: print(('   OK  ' if t['ok'] else '   XX  ') + ('' if t['active'] else '(inactive) ') + t['label'] + ('' if t['ok'] else ('  ONLY THROUGH A WALL' if t.get('throughWall') else f"  gap {t['gap']} m")), flush=True)
                 allres.append({'spec': spec, **r}); await pg.context.close()
             json.dump(allres, open(f'{out}/reach.json', 'w'), indent=1)
         elif mode == 'chain':

@@ -112,12 +112,12 @@ export async function buildShop(L, tod = 'day') {
   L.counter = L.place('counter', [0.3, 0, -0.6], 0);
   L.place('register', [1.1, 1.04, -0.65], 0, { col: false }); L.bell = L.place('bell', [-0.3, 1.04, -0.38], 0, { col: false }); L.fax = L.place('fax', [-0.6, 1.04, -0.7], 0.2, { col: false });
   // NOTE: the back-room doorway is at x -3.5..-2.5 on the z=-4 wall. The bench and everything on it sits east of it (WB = bench centre).
-  const WB = -1.2; L.benchX = WB;
+  const WB = -0.95; L.benchX = WB;   // bench spans x WB-0.9..WB+0.9 (-1.85..-0.05): 0.65 m of clear floor between it and the door frame
   L.place('workbench', [WB, 0, -3.55], 0);
-  L.pc = L.place('pc98', [WB - 0.4, 0.945, -3.6], 0, { col: false }); L.crt = L.place('crt', [WB + 0.4, 0.945, -3.65], -0.15, { col: false });
-  L.place('keyboard', [WB + 0.3, 0.95, -3.22], -0.1, { col: false }); L.place('mouse', [WB + 0.65, 0.95, -3.2], 0, { col: false });
-  L.drawers = L.place('parts_drawers', [WB + 1.35, 0.945, -3.7], 0, { col: false });
-  L.duck = L.place('duck', [WB + 0.7, 0.95, -3.55], 0.6, { col: false });
+  L.pc = L.place('pc98', [WB - 0.4, 0.945, -3.6], 0, { col: false }); L.crt = L.place('crt', [WB + 0.18, 0.945, -3.65], -0.15, { col: false });
+  L.place('keyboard', [WB + 0.12, 0.95, -3.25], -0.1, { col: false }); L.place('mouse', [WB + 0.45, 0.95, -3.22], 0, { col: false });
+  L.drawers = L.place('parts_drawers', [WB + 0.66, 0.945, -3.74], 0, { col: false });   // sits on the right end of the bench
+  L.duck = L.place('duck', [WB + 0.62, 0.95, -3.35], 0.6, { col: false });
   L.place('mug_red', [WB - 0.8, 0.95, -3.3], 0, { col: false });
   L.place('desk', [3.3, 0, -3.55], 0); L.lcd = L.place('lcd', [3.0, 0.76, -3.7], 0, { col: false }); L.place('keyboard_black', [3.0, 0.77, -3.3], 0, { col: false });
   L.stevePC = L.place('pc98', [4.3, 0.76, -3.65], -0.2, { col: false }); L.place('office_chair', [3.0, 0, -2.75], Math.PI + 0.3);
@@ -460,7 +460,7 @@ export class ShopLevel extends Level {
     this.case.visible = false; st.phase = 'leave';
     this.objective('Feed Cache in the back room, then head for the airport (front door)');
     this.msg('MR. THOMAS', 'Plane at 9. Do not forget cat. I mean it.');
-    this.interact({ pos: V(1.4, 0.6, -4.55), r: 1.2, dy: 1.6, once: true, label: 'Feed Cache', fn: () => {
+    this.interact({ pos: V(1.4, 0.6, -4.55), r: 0.85, dy: 1.6, once: true, label: 'Feed Cache', fn: () => {
       find(this.bowl, 'food').visible = true; audio.sfx('food_pour', { vol: 0.8 }); st.catFed = 1; g.ui.toast('Tuna. The good stuff.');
       this.cat.play('idle'); this.cat.walkTo([[1.2, 0.0, -5.6], [1.4, 0, -4.95]], { speed: 0.6, endAnim: 'sit', endYaw: Math.PI }).then(() => { audio.sfx('meow', { pos: this.cat.root.position, vol: 0.8 }); });
       this.objective('Head for the airport: leave through the front door');
@@ -516,7 +516,7 @@ export class EpilogueLevel extends Level {
     this.crtS = this.screenOn(this.crt, 320, 240, (x, s) => this.postCredits ? (() => { x.fillStyle = '#031'; x.fillRect(0, 0, 320, 240); pixText(x, 'HELLO, STEVE.', 160, 100, 3, '#6fb', 'center'); scanlines(x, 320, 240); })() : drawDoors98(x, s, 'off'));
     this.tvS = this.screenOn(this.tv, 160, 120, (x, s) => { x.fillStyle = '#103'; x.fillRect(0, 0, 160, 120); pixText(x, 'NEWS', 80, 20, 2, '#fff', 'center'); pixWrap(x, 'MYSTERY: EVERY OLD COMPUTER ON EARTH STILL WORKS', 10, 50, 1, '#ff5', 24); });
     this.st = { fed: false };
-    this.interact({ pos: V(1.4, 0.6, -4.55), r: 1.2, dy: 1.6, once: true, label: 'Feed Cache', fn: () => { find(this.bowl, 'food').visible = true; audio.sfx('food_pour'); g.bark('e_feed', g.player.actor);
+    this.interact({ pos: V(1.4, 0.6, -4.55), r: 0.85, dy: 1.6, once: true, label: 'Feed Cache', fn: () => { find(this.bowl, 'food').visible = true; audio.sfx('food_pour'); g.bark('e_feed', g.player.actor);
       this.cat.walkTo([[0.5, 0, -6.5], [1.4, 0, -4.95]], { speed: 0.7, endAnim: 'sit' }); this.st.fed = true; this.objective('Wait for Ms. Ellis... she always comes by on Fridays'); this.after(4, () => this.ellisArrives()); } });
     this.interact({ pos: () => this.cat.root.position.clone().setY(0.6), r: 1.1, dy: 1.6, label: 'Pet Cache', fn: () => { this.cat.play('purr'); audio.sfx('purr', { vol: 0.8 }); g.player.actor.play('pet'); g.player.override = true; setTimeout(() => { g.player.override = false; this.cat.play('sit'); }, 1400); } });
     this.floppyE = inst('floppy'); this.floppyE.position.set(-6.6, 0.71, -7.0); this.add(this.floppyE);
