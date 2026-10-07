@@ -383,8 +383,7 @@ export class VaultLevel extends Level {
     }
   }
   popHit() {
-    const g = this.game; this.timeLeft -= 12; g.player.shake = 0.5; audio.sfx('error', { vol: 0.8 }); g.ui.toast('POP-UP! -12 seconds. Zap them (Q) or blow them away (R).', 2.2);
-    if (g.touch) g.ui.toast('POP-UP! -12 seconds. Use ZAP or AIR on them.', 2.2);
+    const g = this.game; this.timeLeft -= 12; g.player.shake = 0.5; audio.sfx('error', { vol: 0.8 }); g.ui.toast(g.touch ? 'POP-UP! -12 seconds. Use ZAP or AIR on them.' : 'POP-UP! -12 seconds. Zap them (Q) or blow them away (R).', 2.2);
     if (!this.st.popHits++) g.bark('v_pophit', g.player.actor, { queue: false });
   }
   // ----------------------------------------------------------------- update
