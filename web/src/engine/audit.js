@@ -63,7 +63,10 @@ export class Audit {
     // in range AND a clear line from Steve's chest to the target (static geometry only; a hit within 0.45 m of the target is the object itself)
     return (c, noLos) => { const p = t.p(); if (!p) return false; if (!(Math.hypot(c.x - p.x, c.z - p.z) <= t.r - 0.1 && Math.abs(p.y - (c.y + 1)) <= t.dy)) return false;
       if (noLos) return true; const P = this.g.physics, a = new THREE.Vector3(c.x, c.y + 1.2, c.z), d = new THREE.Vector3().subVectors(p, a), len = d.length(); if (len < 0.5) return true; d.normalize();
-      const h = P.raycast(a, d, len, m => m.type === 'static'); return !h || h.toi >= len - 0.45; };
+      const h = P.world.castRay(new R.Ray(a, d), len, true, undefined, undefined, undefined, undefined, c => (P.meta.get(c.handle) || {}).type === 'static');
+      if (!h) return true; const toi = h.timeOfImpact ?? h.toi; if (toi >= len - 0.45) return true;
+      // the target sits inside the very object it belongs to (snowman, van, seat pocket...): that is not a wall
+      try { if (h.collider.containsPoint(p)) return true; const q = new THREE.Vector3().copy(a).addScaledVector(d, toi + 0.02); return h.collider.containsPoint(q) && h.collider.containsPoint(new THREE.Vector3().copy(a).addScaledVector(d, len - 0.05)); } catch (e) { return false; } };
   }
   targets() {
     const g = this.g, out = [];
