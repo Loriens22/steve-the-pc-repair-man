@@ -100,7 +100,7 @@ export class Audit {
     dot(this.g.player.pos.x, this.g.player.pos.z, '#39f', 5);
     return cv.toDataURL('image/png');
   }
-  probe(x, z, y = 0) { const P = this.g.physics, out = []; P.world.intersectionsWithShape({ x, y: y + HALF + RAD + 0.06, z }, { x: 0, y: 0, z: 0, w: 1 }, new R.Capsule(HALF, RAD), c => { const m = P.meta.get(c.handle) || {}; const t = c.translation(); out.push({ type: m.type, label: m.dyn && m.dyn.label, at: [+t.x.toFixed(2), +t.y.toFixed(2), +t.z.toFixed(2)], he: c.halfExtents ? (({ x, y, z }) => [+x.toFixed(2), +y.toFixed(2), +z.toFixed(2)])(c.halfExtents()) : null, enabled: c.isEnabled() }); return true; }); return out; }
+  probe(x, z, y = 0, rad = RAD) { const P = this.g.physics, out = []; P.world.intersectionsWithShape({ x, y: y + 0.88, z }, { x: 0, y: 0, z: 0, w: 1 }, new R.Capsule(HALF, rad), c => { const m = P.meta.get(c.handle) || {}; const t = c.translation(); out.push({ type: m.type, label: m.dyn && m.dyn.label, at: [+t.x.toFixed(2), +t.y.toFixed(2), +t.z.toFixed(2)], he: c.halfExtents ? (({ x, y, z }) => [+x.toFixed(2), +y.toFixed(2), +z.toFixed(2)])(c.halfExtents()) : null, enabled: c.isEnabled() }); return true; }); return out; }
   // ------------------------------------------------------------------ autopilot
   sleep(gameSec) { const t0 = this.g.time; return new Promise(r => { const f = () => (this.g.time - t0 >= gameSec ? r() : requestAnimationFrame(f)); f(); }); }
   waitFor(fn, maxReal = 600, label = '') { const t0 = performance.now(); return new Promise((res, rej) => { const f = () => { let v = false; try { v = fn(); } catch (e) {} if (v) res(true); else if (performance.now() - t0 > maxReal * 1000) rej(new Error('timeout waiting for ' + label)); else requestAnimationFrame(f); }; f(); }); }
@@ -122,6 +122,7 @@ export class Audit {
         if (g.locked()) { g.autoDir = null; await this.waitIdle(); }
         const p = g.player.pos;
         if (goal({ x: p.x, z: p.z, y: p.y })) { g.autoDir = null; return { ok: true }; }
+        { let bk = wi, bd2 = 1e9; for (let k = wi; k < Math.min(path.length, wi + 25); k++) { const d2 = Math.hypot(path[k].x - p.x, path[k].z - p.z); if (d2 < bd2) { bd2 = d2; bk = k; } } wi = bk; } // progress = nearest path point ahead (corners get cut by the string-pull)
         while (wi < path.length - 1 && Math.hypot(path[wi].x - p.x, path[wi].z - p.z) < 0.3) wi++;
         // look ahead: aim at the furthest waypoint within 1.2 m to smooth the staircase path
         // string-pull: aim at the furthest waypoint (<= 1.5 m) whose straight line stays on walkable cells, so it never cuts a door frame
@@ -133,16 +134,18 @@ export class Audit {
         if (g.time - lastProg > 3) { const moved = Math.hypot(p.x - lastPos.x, p.z - lastPos.z); if (moved < 0.2) { stuck = true; break; } lastProg = g.time; lastPos = { x: p.x, z: p.z }; }
         if (wi >= path.length - 1 && Math.hypot(path[path.length - 1].x - p.x, path[path.length - 1].z - p.z) < 0.15) break;
       }
-      const ad = g.autoDir || { x: 0, z: 0 }, pp = g.player.pos, ahead = stuck ? this.probe(pp.x + ad.x * 0.3, pp.z + ad.z * 0.3, pp.y).filter(q => q.type !== 'player') : [];
+      const ad = g.autoDir || { x: 0, z: 0 }, pp = g.player.pos, ahead = stuck ? this.probe(pp.x + ad.x * 0.12, pp.z + ad.z * 0.12, pp.y, 0.36).filter(q => q.type !== 'player') : [];
       g.autoDir = null;
-      if (stuck) { this.note('STUCK (blocked by ' + JSON.stringify(ahead) + ') at ' + g.player.pos.x.toFixed(2) + ',' + g.player.pos.z.toFixed(2) + ' going to ' + t.label); if (++replans > 3) return { ok: false, reason: 'stuck at ' + g.player.pos.x.toFixed(2) + ',' + g.player.pos.z.toFixed(2) }; }
+      const pl2 = g.player; if (stuck) { this.note('STUCK (blocked by ' + JSON.stringify(ahead) + '; dir ' + ad.x.toFixed(2) + ',' + ad.z.toFixed(2) + ' vel ' + pl2.vel.x.toFixed(2) + ',' + pl2.vel.z.toFixed(2) + ' grounded ' + pl2.grounded + ' enabled ' + pl2.enabled + ' locked ' + g.locked() + ' override ' + pl2.override + ' y ' + pl2.pos.y.toFixed(2) + ') at ' + g.player.pos.x.toFixed(2) + ',' + g.player.pos.z.toFixed(2) + ' going to ' + t.label); if (++replans > 3) return { ok: false, reason: 'stuck at ' + g.player.pos.x.toFixed(2) + ',' + g.player.pos.z.toFixed(2) }; }
       else if (++replans > 6) return { ok: false, reason: 'could not settle in range' };
     }
   }
   async use(re, o = {}) {
     const g = this.g; await this.waitIdle(); const t = this.find(re);
     if (!t) throw new Error('no active interactable matching /' + re + '/. Active: ' + this.targets().filter(q => q.active && q.kind === 'interact').map(q => q.label).join(' | '));
-    const r = await this.goTo(t); if (!r.ok) throw new Error('cannot reach "' + t.label + '": ' + r.reason);
+    // walk up close like a player would (falls back to the edge of the interaction radius if that spot is not reachable)
+    let r = await this.goTo({ ...t, r: Math.min(t.r, 0.8) }); if (!r.ok) r = await this.goTo(t);
+    if (!r.ok) throw new Error('cannot reach "' + t.label + '": ' + r.reason);
     const p = t.p(), pl = g.player; pl.yaw = Math.atan2(p.x - pl.pos.x, p.z - pl.pos.z); pl.camYaw = pl.yaw + Math.PI;
     const rx = new RegExp(re, 'i');
     try { await this.waitFor(() => g.curLabel && rx.test(g.curLabel), 20, 'prompt'); }

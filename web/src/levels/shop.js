@@ -184,7 +184,7 @@ export class ShopLevel extends Level {
     const g = this.game, st = this.st, L = this;
     const pcPos = V(this.benchX - 0.25, 1.0, -3.1);
     const panel = find(this.pc, 'side_panel'), cmos = find(this.pc, 'cmos');
-    this.interact({ pos: pcPos, r: 1.4, priority: 0.5, label: () => ['Open the case', 'Remove the old CMOS battery', 'Install a new battery (you need one)', 'Install the new CR2032', 'Close the case and power on', 'Ms. Ellis\'s PC (running Doors 98)'][st.step] || null,
+    this.pcIt = this.interact({ pos: pcPos, r: 1.4, priority: 0.5, label: () => ['Open the case', 'Remove the old CMOS battery', 'Install a new battery (you need one)', 'Install the new CR2032', 'Close the case and power on', 'Ms. Ellis\'s PC (running Doors 98)'][st.step] || null,
       cond: () => st.phase === 'fix' || st.step >= 5,
       fn: async () => {
         if (st.step === 0) { g.player.actor.play('reach'); if (await Mini.screws(g)) { panel.position.x += 0.0; panel.visible = false; this.panelProp(); st.step = 1; g.bark('s_case_open', g.player.actor); this.objective('Remove the old CMOS battery from the motherboard'); } }
@@ -272,6 +272,8 @@ export class ShopLevel extends Level {
   update(dt) {
     super.update(dt);
     const g = this.game, pl = g.player; if (!pl) return;
+    // while Steve still needs a battery the PC prompt is only a reminder: never let it steal the prompt from the drawers next to it
+    if (this.pcIt) this.pcIt.priority = (this.st.step === 2 && !this.st.hasBatt) ? -0.6 : 0.5;
     // auto front door: open when someone is near
     const near = [pl.pos, this.ellis.root.position, this.oleg.root.position].some(p => Math.abs(p.x - 1.5) < 1.3 && Math.abs(p.z - 2) < 1.4);
     if (near !== this.frontDoor.open) { this.frontDoor.set(near); if (near) audio.sfx('door_chime', { vol: 0.6, vary: 0 }); }

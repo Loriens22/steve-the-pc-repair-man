@@ -23,7 +23,7 @@ async def main():
                 elif k == 'key': await pg.keyboard.press(v)
                 elif k == 'down': await pg.keyboard.down(v)
                 elif k == 'up': await pg.keyboard.up(v)
-                elif k == 'eval': r = await pg.evaluate(v); print('eval ->', str(r)[:500])
+                elif k == 'eval': r = await pg.evaluate(v); print('eval ->', str(r)[:4000])
                 elif k == 'tap': x, y = map(int, v.split(',')); await pg.touchscreen.tap(x, y)
                 elif k == 'waitfor': await pg.wait_for_function(v, timeout=180000)
             except Exception as e: print('STEP FAIL', st, e)
